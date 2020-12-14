@@ -1,6 +1,7 @@
 from testrail import *
 from project import Project
 from run import Run
+from suite import Suite
 
 def close_run(runs):
     
@@ -12,15 +13,20 @@ def close_run(runs):
 client = APIClient('https://mmoya26.testrail.io/')
 client.user = 'mmoya18@icloud.com'
 client.password = 'password123'
+suite_name = 'Master'
 
 mainProject = None
 project = client.send_get('get_projects')
+
 
 # List containing all of the projects
 projects = []
 
 # List containing all of the runs
 runs = []
+
+# List containing all of the suites
+suites = []
 
 for item in project:
     # Create Project instance
@@ -38,6 +44,14 @@ for project in projects:
         mainProject = project
 
 
+
+suiteList = client.send_get(f'get_suites/{mainProject.id}')
+
+for suite in suiteList:
+    s = Suite(suite["description"], suite["id"], suite["name"], suite["project_id"], suite["url"])
+    
+
+
 # Gets all the currents runs in our mainProject
 # use mainProject.id as part of the API get call
 test_runs = client.send_get(f'get_runs/{mainProject.id}')
@@ -46,14 +60,11 @@ test_runs = client.send_get(f'get_runs/{mainProject.id}')
 for run in test_runs:
     # Create a temporary run instance
     r = Run(run["id"], run["name"], run["is_completed"], run["project_id"], run["suite_id"], run["url"])
-
-    # If run is not completed/close 
-    if not run["is_completed"]:
-
+    
+    # If run is not completed/close and belong to the main project 
+    if not run["is_completed"] and run["project_id"] == mainProject.id and run:
+        print(f'{r.id} + {r.name}')
         # Add run to runs list
         runs.append(r)
 
-
-#  Call close_run function to close runs
-close_run(runs)
 
