@@ -20,7 +20,10 @@ for item in project:
     projects.append(projectItem)
 
 
-print(len(projects))
+
+print(project)
+# print(len(projects))
+
 
 # print('###################################### SECTIONS ###################################################')
 # print(sections)
