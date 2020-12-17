@@ -3,9 +3,9 @@ from project import Project
 from run import Run
 from suite import Suite
 
-client = APIClient('https://mmoya26.testrail.io/')
-client.user = 'mmoya18@icloud.com'
-client.password = 'password123'
+client = APIClient('https://mmoya18.testrail.io/')
+client.user = 'nexonmiguel26@gmail.com'
+client.password = 'Password123'
 
 def close_run(runs):
     # Loop through runs list and send POST request to close all of the runs in it
@@ -16,8 +16,9 @@ def close_run(runs):
     print("################################################################################################################")
 
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
-PROJECT_NAME = "TEST PROJECT"
-SUITE_NAME = 'Master'
+PROJECT_NAME = "Returns Excise"
+SUITE_NAME = '5.43.10'
+PROJECT_ID = 1
 # No need to modify this variable
 SUITE_ID = 0
 
@@ -35,7 +36,7 @@ projectsList = client.send_get('get_projects')
 
 for project in projectsList:
     #print(f'Current project name: {project["name"]}')
-    if project["name"] == PROJECT_NAME:
+    if project["name"] == PROJECT_NAME and project["id"] == PROJECT_ID:
         # Create Project instance
         mainProject = Project(project["id"], project["name"], project["announcement"], project["show_announcement"], project["is_completed"],
         project["completed_on"], project["suite_mode"], project["url"])
@@ -91,4 +92,4 @@ if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
     quit()
 
-#close_run(runs)
+close_run(runs)
