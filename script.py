@@ -21,23 +21,23 @@ def close_run(runs):
     
     print("################################################################################################################")
 
-def get_runs(userID):
+def get_runs(user):
     # Gets all the currents runs in our mainProject
     # use mainProject.id as part of the API get call
     test_runs = client.send_get(f'get_runs/{mainProject.id}')
 
-
-    print(f"UserID: {userID}")
+    if user != None:
+        print(f'Getting Runs for UserID: {user["id"]} and Email: {user["email"]}')
 
     # Loop through the runs
     for run in test_runs:
         # Create a temporary run instance
         r = Run(run["id"], run["name"], run["is_completed"], run["project_id"], run["suite_id"], run["created_by"], run["url"])
     
-        if userID != None:
+        if user != None:
             # If run is not completed/close and belong to the main project and it is within the suite that we are working with
             # add that run to our runs list
-            if r.is_completed == False and r.project_id == mainProject.id and r.suite_id == SUITE_ID and r.created_by == int(userID):
+            if r.is_completed == False and r.project_id == mainProject.id and r.suite_id == SUITE_ID and r.created_by == int(user["id"]):
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
         else:
@@ -103,9 +103,10 @@ if mainSuite == None:
 # if it wasn't provided the method will add all of the runs for the suite to runs[]
 # if it was provided the method 
 if args.delete_by_user == None:
-    get_runs(userID=None)
+    get_runs(user=None)
 else:
-    get_runs(userID = args.delete_by_user)
+    user = client.send_get(f'/get_user_by_email&email={args.delete_by_user}')
+    get_runs(user = user)
 
 if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
