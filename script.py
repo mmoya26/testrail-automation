@@ -26,8 +26,14 @@ def get_runs(user):
     # use mainProject.id as part of the API get call
     test_runs = client.send_get(f'get_runs/{mainProject.id}')
 
+    # If there is no user then do not print the following statement
     if user != None:
-        print(f'Getting Runs for UserID: {user["id"]} and Email: {user["email"]}')
+        print(f'Getting runs for: User Name: {user["name"]} - User Email: {user["email"]} - User ID: {user["id"]}')
+        print(f"Getting runs from Suite: Suite ID: {SUITE_ID} - Suite Name: {SUITE_NAME}")
+    else:
+        print(f"Getting all runs from Suite: Suite ID: {SUITE_ID} - Suite Name: {SUITE_NAME}")
+
+    print("################################################################################################################")
 
     # Loop through the runs
     for run in test_runs:
@@ -35,12 +41,14 @@ def get_runs(user):
         r = Run(run["id"], run["name"], run["is_completed"], run["project_id"], run["suite_id"], run["created_by"], run["url"])
     
         if user != None:
-            # If run is not completed/close and belong to the main project and it is within the suite that we are working with
-            # add that run to our runs list
+            # If run is not completed/closed belong to the main project and it is within the suite that we are working with
+            # and it mataches the user id from the provided user email then, add that run to our runs list
             if r.is_completed == False and r.project_id == mainProject.id and r.suite_id == SUITE_ID and r.created_by == int(user["id"]):
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
         else:
+            # If run is not completed/closed and belong to the main project and it is within the suite that we are working with
+            # add that run to our runs list
             if r.is_completed == False and r.project_id == mainProject.id and r.suite_id == SUITE_ID:
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
