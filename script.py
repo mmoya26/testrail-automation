@@ -4,6 +4,7 @@ from run import Run
 from suite import Suite
 import argparse
 
+# API URL connection + ADMIN user credentials
 client = APIClient('https://mmoya18.testrail.io/')
 client.user = 'nexonmiguel26@gmail.com'
 client.password = 'Password123'
@@ -16,15 +17,21 @@ args = parser.parse_args()
 def close_run(runs):
     # Loop through runs list and send POST request to close all of the runs in it
     for run in runs:
-        close_run = client.send_post(f'close_run/{run.id}', {})
-        print(f'RunID {run.id}: was closed')
+        try:
+            close_run = client.send_post(f'close_run/{run.id}', {})
+            print(f'RunID {run.id}: was closed')
+        except:
+            print("Something went wrong when trying to close the runs, try again later.")
     
     print("################################################################################################################")
 
 def get_runs(user):
     # Gets all the currents runs in our mainProject
     # use mainProject.id as part of the API get call
-    test_runs = client.send_get(f'get_runs/{mainProject.id}')
+    try:
+        test_runs = client.send_get(f'get_runs/{mainProject.id}')
+    except:
+        print("Something went wrong when trying to get the tests runs, try again later.")
 
     # If there is no user then do not print the following statement
     if user != None:
@@ -69,8 +76,11 @@ mainSuite = None
 # List containing all of the runs
 runs = []
 
-# Gets all the projects from our testrail address
-projectsList = client.send_get('get_projects')
+# Gets all the projects from our testrail address\
+try:
+    projectsList = client.send_get('get_projects')
+except:
+    print("Something went wrong when trying to get the TestRail projects, try again later.")
 
 for project in projectsList:
     #print(f'Current project name: {project["name"]}')
@@ -90,7 +100,10 @@ if mainProject == None:
 
 # Gets all the suites in our mainProject
 # use mainProject.id as part of the API get call
-suiteList = client.send_get(f'get_suites/{mainProject.id}')
+try:
+    suiteList = client.send_get(f'get_suites/{mainProject.id}')
+except:
+    print("Something went wrong when trying to get the Suites from TestRail, try again later.")
 
 # Loop through the suites
 for suite in suiteList:
