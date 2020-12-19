@@ -9,8 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "args": ["--delete_by_user", "nexonmiguel2601@gmail.om"]
+            "console": "integratedTerminal"
+            // "args": ["--delete_by_user", "nexonmiguel2601@gmail.om"]
         }
     ]
 }

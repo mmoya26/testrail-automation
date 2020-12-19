@@ -19,7 +19,7 @@ def close_run(runs):
     for run in runs:
         try:
             close_run = client.send_post(f'close_run/{run.id}', {})
-            print(f'RunID {run.id}: was closed')
+            print(f'RunID {run.id} - Run Name: {run.name} - was closed')
         except:
             print("Something went wrong when trying to close the runs, try again later.")
     
@@ -59,6 +59,12 @@ def get_runs(user):
             if r.is_completed == False and r.project_id == mainProject.id and r.suite_id == SUITE_ID:
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
+
+
+def  generate_runs():
+    for x in range(5):
+        create_runs = client.send_post(f'add_run/1', {"suite_id": 1, "name": f"Run {x}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
+	    "include_all": False, "case_ids": [1, 2]})
 
 
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
@@ -132,10 +138,11 @@ else:
     except:
         print(f"The email: {args.delete_by_user} is not associated with any user in Testrail, try entering the email address again.")
         quit()
-        
+
+#generate_runs()
+
 if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
     quit()
 
 #close_run(runs)
-
