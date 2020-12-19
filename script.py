@@ -113,9 +113,13 @@ if mainSuite == None:
 if args.delete_by_user == None:
     get_runs(user=None)
 else:
-    user = client.send_get(f'/get_user_by_email&email={args.delete_by_user}')
-    get_runs(user = user)
-
+    try:
+        user = client.send_get(f'/get_user_by_email&email={args.delete_by_user}')
+        get_runs(user = user)
+    except:
+        print(f"The email: {args.delete_by_user} is not associated with any user in Testrail, try entering the email address again.")
+        quit()
+        
 if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
     quit()
