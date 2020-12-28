@@ -60,13 +60,6 @@ def get_runs(user):
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
 
-
-def  generate_runs():
-    for x in range(5):
-        create_runs = client.send_post(f'add_run/1', {"suite_id": 1, "name": f"Run {x}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
-	    "include_all": False, "case_ids": [1, 2]})
-
-
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
 PROJECT_NAME = "Returns Excise"
 SUITE_NAME = '5.43.10'
@@ -139,10 +132,8 @@ else:
         print(f"The email: {args.delete_by_user} is not associated with any user in Testrail, try entering the email address again.")
         quit()
 
-#generate_runs()
-
 if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
     quit()
 
-#close_run(runs)
+close_run(runs)
