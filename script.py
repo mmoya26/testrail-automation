@@ -5,8 +5,8 @@ from suite import Suite
 import argparse
 
 # API URL connection + ADMIN user credentials
-client = APIClient('https://mmoya18.testrail.io/')
-client.user = 'nexonmiguel26@gmail.com'
+client = APIClient('https://migueltestrail2.testrail.io/')
+client.user = 'migueltestrail1@outlook.com'
 client.password = 'Password123'
 
 # Command line arguments
