@@ -136,4 +136,4 @@ if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
     quit()
 
-#close_run(runs)
+close_run(runs)
