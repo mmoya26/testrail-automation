@@ -11,6 +11,8 @@ client.password = 'Password123'
 
 # Command line arguments
 parser = argparse.ArgumentParser()
+parser.add_argument("--suite", help="Argument that will determine which Suite will be used to close all of its runs")
+parser.add_argument("--project_id", help="Argument that will determine which Project will be used as a reference to look for suites and runs")
 parser.add_argument("--delete_by_user", help="Argument that will determine if we want to delete by user specific only, if so, please provide user email")
 args = parser.parse_args()
 
@@ -62,15 +64,16 @@ def get_runs(user):
 
 
 def  generate_runs():
-    for x in range(20):
-        create_runs = client.send_post(f'add_run/1', {"suite_id": 1, "name": f"Run {x}: Suite: {SUITE_NAME}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
-	    "include_all": False, "case_ids": [1, 2]})
+    for x in range(10):
+        create_runs = client.send_post(f'add_run/1', {"suite_id": SUITE_ID, "name": f"Run {x}: Suite: {SUITE_NAME}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
+	    "include_all": False, "case_ids": []})
+        print(x)
 
 
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
 PROJECT_NAME = "Returns Excise"
-SUITE_NAME = '5.43.10'
-PROJECT_ID = 1
+SUITE_NAME = args.suite
+PROJECT_ID = int(args.project_id)
 SUITE_ID = 0
 
 # Variable that will hold our main project properties
