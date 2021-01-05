@@ -5,6 +5,8 @@ from suite import Suite
 import argparse
 
 # API URL connection + ADMIN user credentials
+# This will need to be updated with the avalara testrail URL and an API user will need to be created for this specific process
+# unless there is one already created it
 client = APIClient('https://migueltestrail2.testrail.io/')
 client.user = 'migueltestrail1@outlook.com'
 client.password = 'Password123'
@@ -62,24 +64,24 @@ def get_runs(user):
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
 
-
-
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
 PROJECT_NAME = "Returns Excise"
 
+# Checking if the --suite parameter value was provided (not empty)
 if args.suite == None:
     print("--suite parementer was not provided, please try using --suite [suite_name]")
     quit()
 else:
     SUITE_NAME = args.suite
 
+# Checking if the --suite parameter value was provided (not empty)
 if args.project_id == None:
     print("--project_id parementer was not provided, please try using --project_id [project_id]")
     quit()
 else:
     PROJECT_ID = int(args.project_id)
 
-
+# This variable will get automatically populated so no need to change
 SUITE_ID = 0
 
 # Variable that will hold our main project properties
