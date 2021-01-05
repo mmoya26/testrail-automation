@@ -62,8 +62,8 @@ def get_runs(user):
 
 
 def  generate_runs():
-    for x in range(5):
-        create_runs = client.send_post(f'add_run/1', {"suite_id": 1, "name": f"Run {x}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
+    for x in range(20):
+        create_runs = client.send_post(f'add_run/1', {"suite_id": 1, "name": f"Run {x}: Suite: {SUITE_NAME}", "assignedto_id": 1, "refs": "SAN-1, SAN-2",
 	    "include_all": False, "case_ids": [1, 2]})
 
 
@@ -139,7 +139,7 @@ else:
         print(f"The email: {args.delete_by_user} is not associated with any user in Testrail, try entering the email address again.")
         quit()
 
-#generate_runs()
+generate_runs()
 
 if len(runs) == 0:
     print("Test Runs list is empty, no work to be done")
