@@ -11,6 +11,8 @@ client.password = 'Password123'
 
 # Command line arguments
 parser = argparse.ArgumentParser()
+parser.add_argument("--suite", help="Argument that will determine which Suite will be used to close all of its runs")
+parser.add_argument("--project_id", help="Argument that will determine which Project will be used as a reference to look for suites and runs")
 parser.add_argument("--delete_by_user", help="Argument that will determine if we want to delete by user specific only, if so, please provide user email")
 args = parser.parse_args()
 
@@ -60,10 +62,24 @@ def get_runs(user):
                 runs.append(r)
                 print(f'RunID {r.id}: was added to "runs" list. Current lenght of "runs" list is: {len(runs)}')
 
+
+
 # IMPORTANT VARIABLES THAT WILL THE DETERMINE WHAT PROJECT, SUITE NAME, SUITE ID, WE ARE WORKING WITH
 PROJECT_NAME = "Returns Excise"
-SUITE_NAME = '5.43.10'
-PROJECT_ID = 1
+
+if args.suite == None:
+    print("--suite parementer was not provided, please try using --suite [suite_name]")
+    quit()
+else:
+    SUITE_NAME = args.suite
+
+if args.project_id == None:
+    print("--project_id parementer was not provided, please try using --project_id [project_id]")
+    quit()
+else:
+    PROJECT_ID = int(args.project_id)
+
+
 SUITE_ID = 0
 
 # Variable that will hold our main project properties
@@ -94,7 +110,7 @@ for project in projectsList:
 # If main project is empty then do not continue with the rest of the program
 # Double check spelling of variable PROJECT_NAME
 if mainProject == None:
-    print("Double check spelling for PROJECT_NAME or make sure is not empty")
+    print("Double check spelling for PROJECT_NAME variable or --project_id parameter or make sure is not empty")
     quit()
 
 # Gets all the suites in our mainProject
